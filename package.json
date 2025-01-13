@@ -1,0 +1,25 @@
+{
+  "name": "user-auth-sys",
+  "version": "1.0.0",
+  "description": "A secure and scalable user authentication system built with **Node.js**, **Express**, **MongoDB**, **bcrypt** for password hashing, and **JSON Web Tokens (JWT)** for session management.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mailtrap": "^3.4.0",
+    "mongose": "^0.0.2-security"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
