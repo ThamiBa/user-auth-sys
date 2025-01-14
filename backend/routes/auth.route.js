@@ -1,17 +1,13 @@
 import express from 'express'; // Import express
 
+import { signup, login, logout } from '../controllers/auth.controller.js'; // Import signup, login, logout functions
+
 const router = express.Router();	// Create router
 
-router.get("/signup", (req, res) => { // Create route for GET request
-    res.send("SignUp route!"); // Send response
-});
+router.get("/signup", signup); // Create route for GET request
 
-router.get("/login", (req, res) => { // Create route for GET request
-    res.send("LogIn route!"); // Send response
-});
+router.get("/login", login); // Create route for GET request
 
-router.get("/logout", (req, res) => { // Create route for GET request
-    res.send("LogOut route!"); // Send response
-});
+router.get("/logout", logout); // Create route for GET request
 
 export default router;	// Export router
