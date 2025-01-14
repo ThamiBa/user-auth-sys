@@ -62,7 +62,7 @@ cd advanced-mern-auth
 
 ### 2. Install Backend Dependencies
 
-Navigate to the ´server` folder and install dependencies:
+Navigate to the `server` folder and install dependencies:
 
 ```bash
 cd server
@@ -111,7 +111,7 @@ Open a pull request.
 
 ### License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT `License`. See the LICENSE file for details.
 
 ---
 
