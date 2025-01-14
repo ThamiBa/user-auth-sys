@@ -69,26 +69,53 @@ cd server
 npm install
 ```
 
+### 3. Install Frontend Dependencies
+
+Navigate to the `client` folder and install dependencies:
+
+```bash
+cd ../client
+npm install
+```
+
+### 4. Set Up Environment Variables
+
+Create a `.env` file in the `server` folder and add the following variables:
+
+```bash
+MONGO_URI=mongodb://localhost:27017/advanced-auth
+JWT_SECRET=your_jwt_secret_key
+MAILTRAP_HOST=sandbox.smtp.mailtrap.io
+MAILTRAP_PORT=2525
+MAILTRAP_USER=your_mailtrap_username
+MAILTRAP_PASS=your_mailtrap_password
+BASE_URL=http://localhost:3000
+```
+
 ---
 
 ### Project Structure
 
 ```bash
-user-auth-system/
-├── config/
-│   └── db.js
-├── controllers/
-│   └── authController.js
-├── middleware/
-│   └── authMiddleware.js
-├── models/
-│   └── User.js
-├── routes/
-│   └── auth.js
-├── .env
-├── app.js
-├── package.json
-└── README.md
+advanced-mern-auth/
+├── client/                  # Frontend (React)
+│   ├── public/
+│   ├── src/
+│   │   ├── components/      # Reusable components
+│   │   ├── pages/           # Application pages
+│   │   ├── App.js           # Main application component
+│   │   └── index.js         # Entry point
+│   └── package.json
+├── server/                  # Backend (Node.js + Express)
+│   ├── config/              # Configuration files
+│   ├── controllers/         # Route controllers
+│   ├── models/              # Database models
+│   ├── routes/              # API routes
+│   ├── utils/               # Utility functions (e.g., email sending)
+│   ├── .env                 # Environment variables
+│   ├── app.js               # Main application file
+│   └── package.json
+└── README.md                # Project documentation
 ```
 
 ---
