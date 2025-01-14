@@ -1,26 +1,43 @@
-# User Authentication System
+# Advanced MERN Auth Project
 
-A secure and scalable user authentication system built with **Node.js**, **Express**, **MongoDB**, **bcrypt** for password hashing, and **JSON Web Tokens (JWT)** for session management.
+A full-stack authentication system built with the **MERN stack** (MongoDB, Express, React, Node.js) that includes advanced features like **Email Verification**, **Password Recovery**, and **Welcome Emails**.
 
 ---
 
 ## Features
 
 - **User Registration**: Users can create an account with a username, email, and password.
-- **User Login**: Users can log in using their email and password.
-- **Password Hashing**: Passwords are securely hashed using bcrypt.
-- **JWT Authentication**: JSON Web Tokens are used for secure session management.
+- **Email Verification**: Users receive a verification email to confirm their account.
+- **Password Recovery**: Users can reset their password via a secure email link.
+- **Welcome Emails**: Users receive a welcome email upon successful registration.
+- **JWT Authentication**: Secure authentication using JSON Web Tokens (JWT).
 - **Protected Routes**: Middleware ensures only authenticated users can access certain routes.
 
 ---
 
 ## Technologies Used
 
-- **Backend**: Node.js, Express
-- **Database**: MongoDB
-- **Password Hashing**: bcryptjs
-- **Authentication**: JSON Web Tokens (JWT)
-- **Environment Variables**: dotenv
+### Backend
+
+- **Node.js**: JavaScript runtime for the server.
+- **Express**: Web framework for building the API.
+- **MongoDB**: NoSQL database for storing user data.
+- **Mongoose**: MongoDB object modeling for Node.js.
+- **Nodemailer**: For sending emails (verification, password recovery, and welcome emails).
+- **Bcryptjs**: For password hashing.
+- **JSON Web Tokens (JWT)**: For secure authentication.
+- **Dotenv**: For managing environment variables.
+
+### Frontend
+
+- **React**: JavaScript library for building the user interface.
+- **React Router**: For client-side routing.
+- **Axios**: For making HTTP requests to the backend.
+- **Bootstrap**: For styling the UI.
+
+### Email Service
+
+- **Mailtrap**: For testing email functionality in development.
 
 ---
 
@@ -28,140 +45,28 @@ A secure and scalable user authentication system built with **Node.js**, **Expre
 
 Before running the project, ensure you have the following installed:
 
-- [Node.js](https://nodejs.org/) (v14 or higher)
+- [Node.js](https://nodejs.org/) (v16 or higher)
 - [MongoDB](https://www.mongodb.com/) (local or cloud instance)
-- [Postman](https://www.postman.com/) (for testing API endpoints)
+- [Git](https://git-scm.com/) (for cloning the repository)
 
 ---
 
 ## Installation
 
-- **Clone the repository**:
-
-   ```bash
-   git clone https://github.com/your-username/user-auth-system.git
-   cd user-auth-system
-   ```
-
-- **Install dependencies**:
-
-    ```bash
-    npm install
-    ```
-
-- **Set up environment variables**:
-
-- Create a .env file in the root directory.
-
-- Add the following variables:
-
-    ```bash
-    MONGO_URI=mongodb://localhost:27017/user_auth
-    JWT_SECRET=your_jwt_secret_key
-    ```
-
-- **Start the server:**
-
-    ```bash
-    npm start
-    ```
-
-- The server will run on <http://localhost:5000>.
-
----
-
-### API Endpoints
-
-- **User Registration**:
-
-- URL: /api/auth/register
-
-- Method: POST
-
-- Request Body:
-
-json
+### 1. Clone the Repository
 
 ```bash
-{
-  "username": "testuser",
-  "email": "test@example.com",
-  "password": "password123"
-}
+git clone https://github.com/your-username/advanced-mern-auth.git
+cd advanced-mern-auth
 ```
 
-- Response:
+### 2. Install Backend Dependencies
 
-json
-
-```bash
-{
-  "message": "User registered successfully",
-  "user": {
-    "id": "64f1a2b3c9e8b4a3f4d5e6f7",
-    "username": "testuser",
-    "email": "test@example.com"
-  }
-}
-```
-
-- **User Login**:
-
-- URL: /api/auth/login
-
-- Method: POST
-
-- Request Body:
-
-json
+Navigate to the ´server` folder and install dependencies:
 
 ```bash
-{
-  "email": "test@example.com",
-  "password": "password123"
-}
-```
-
-- Response:
-
-json
-
-```bash
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user": {
-    "id": "64f1a2b3c9e8b4a3f4d5e6f7",
-    "username": "testuser",
-    "email": "test@example.com"
-  }
-}
-```
-
-- **Protected Route** (Example):
-
-- URL: /api/auth/profile
-
-- Method: GET
-
-- Headers:
-
-```bash
-Authorization: Bearer <token>
-```
-
-Response:
-
-json
-
-```bash
-{
-  "message": "Protected route accessed",
-  "user": {
-    "id": "64f1a2b3c9e8b4a3f4d5e6f7",
-    "username": "testuser",
-    "email": "test@example.com"
-  }
-}
+cd server
+npm install
 ```
 
 ---
