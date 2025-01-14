@@ -83,7 +83,7 @@ npm install
 Create a `.env` file in the `server` folder and add the following variables:
 
 ```bash
-MONGO_URI=mongodb://localhost:27017/advanced-auth
+MONGO_URI=mongodb://localhost:27017/user-auth-sys
 JWT_SECRET=your_jwt_secret_key
 MAILTRAP_HOST=sandbox.smtp.mailtrap.io
 MAILTRAP_PORT=2525
@@ -228,7 +228,7 @@ json
 ### Project Structure
 
 ```bash
-advanced-mern-auth/
+user-auth-sys/
 ├── client/                  # Frontend (React)
 │   ├── public/
 │   ├── src/
@@ -281,9 +281,11 @@ This project is licensed under the MIT `License`. See the LICENSE file for detai
 
 - [MongoDB](https://www.mongodb.com/fr-fr)
 
-- [bcryptjs](https://www.npmjs.com/package/bcryptjs)
+- [React](https://react.dev/)
 
-- [JSON Web Tokens](https://jwt.io/)
+- [Nodemailer](https://nodemailer.com/)
+
+- [Mailtrap](https://mailtrap.io/)
 
 ---
 
