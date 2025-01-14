@@ -92,6 +92,16 @@ MAILTRAP_PASS=your_mailtrap_password
 BASE_URL=http://localhost:3000
 ```
 
+### 5. Start the Backend Server
+
+From the `server` folder, run:
+
+```bash
+npm start
+```
+
+The server will run on `http://localhost:5000`.
+
 ---
 
 ### Project Structure
