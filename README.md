@@ -57,7 +57,7 @@ Before running the project, ensure you have the following installed:
 
 ```bash
 git clone https://github.com/your-username/user-auth-sys.git
-cd advanced-mern-auth
+cd user-auth-sys
 ```
 
 ### 2. Install Backend Dependencies
