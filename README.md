@@ -164,4 +164,4 @@ Thami Baladi
 
 Email: <baladithami@gmail.com>
 
-GitHub: ThamiBa
+GitHub: [ThamiBa](https://github.com/ThamiBa)
