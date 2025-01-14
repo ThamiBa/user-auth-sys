@@ -1,4 +1,4 @@
-# Advanced MERN Auth Project
+# User authencation system
 
 A full-stack authentication system built with the **MERN stack** (MongoDB, Express, React, Node.js) that includes advanced features like **Email Verification**, **Password Recovery**, and **Welcome Emails**.
 
@@ -56,7 +56,7 @@ Before running the project, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/advanced-mern-auth.git
+git clone https://github.com/your-username/user-auth-sys.git
 cd advanced-mern-auth
 ```
 
@@ -150,6 +150,78 @@ json
 json
 {
   "message": "Email verified successfully."
+}
+```
+
+### 3. User Login
+
+- URL: `/api/auth/login`
+- Method: `POST`
+- Request Body:
+
+```bash
+json
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+```
+
+- Response:
+
+```bash
+json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "64f1a2b3c9e8b4a3f4d5e6f7",
+    "username": "testuser",
+    "email": "test@example.com"
+  }
+}
+```
+
+### 4. Password Recovery
+
+- URL: `/api/auth/forgot-password`
+- Method: `POST`
+- Request Body:
+
+```bash
+json
+{
+  "email": "test@example.com"
+}
+```
+
+- Response:
+
+```bash
+json
+{
+  "message": "Password reset email sent. Please check your email."
+}
+```
+
+### 5. Reset Password
+
+- URL: /api/auth/reset-password?token=<reset_token>
+- Method: POST
+- Request Body:
+
+```bash
+json
+{
+  "password": "newpassword123"
+}
+```
+
+- Response:
+
+```bash
+json
+{
+  "message": "Password reset successfully."
 }
 ```
 
