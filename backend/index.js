@@ -3,6 +3,8 @@ import dotenv from 'dotenv';	// Import dotenv
 
 import { connectDB } from './db/connectDB.js'; // Import connectDB function
 
+import authRoutes from './routes/auth.route.js'; // Import authRoutes
+
 dotenv.config();	// Load environment variables
 
 const app = express();	// Create express app
