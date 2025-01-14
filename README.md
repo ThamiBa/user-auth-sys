@@ -102,7 +102,56 @@ npm start
 
 The server will run on `http://localhost:5000`.
 
+### 6. Start the Frontend Development Server
+
+From the `client` folder, run:
+
+```bash
+npm start
+```
+
+The frontend will run on `http://localhost:3000`.
+
 ---
+
+### API Endpoints
+
+### 1. User Registration
+
+- URL: /api/auth/register
+- Method: POST
+- Request Body:
+
+```bash
+json
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "password123"
+}
+```
+
+- Response:
+
+```bash
+json
+{
+  "message": "User registered successfully. Please check your email for verification."
+}
+```
+
+### 2. Email Verification
+
+- URL: `/api/auth/verify-email?token=<verification_token>`
+- Method: `GET`
+- Response:
+
+```bash
+json
+{
+  "message": "Email verified successfully."
+}
+```
 
 ### Project Structure
 
