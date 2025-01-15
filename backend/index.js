@@ -17,6 +17,7 @@ const PORT = process.env.PORT || 5000;	// Set PORT
 
 
 app.use("/api/auth", authRoutes); // Use authRoutes for /api/auth route
+app.use(express.json());	// allow us to parse incoming requests:req.body in json format
 
 app.listen(PORT, () => {	// Start server
     connectDB(); // Connect to MongoDB
