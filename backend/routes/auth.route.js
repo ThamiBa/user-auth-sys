@@ -4,10 +4,10 @@ import { signup, login, logout } from '../controllers/auth.controller.js'; // Im
 
 const router = express.Router();	// Create router
 
-router.get("/signup", signup); // Create route for GET request
+router.post("/signup", signup); // Create route for GET request
 
-router.get("/login", login); // Create route for GET request
+router.post("/login", login); // Create route for GET request
 
-router.get("/logout", logout); // Create route for GET request
+router.post("/logout", logout); // Create route for GET request
 
 export default router;	// Export router
