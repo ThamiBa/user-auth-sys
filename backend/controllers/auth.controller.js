@@ -1,11 +1,6 @@
-// Import the User model from the user.model.js file
-import { User } from "../models/user.model.js";
-
-// Import bcryptjs for password hashing
-import bcryptjs from "bcryptjs";
-
-// Import the generateTokenAndSetCookie utility function for JWT token generation and cookie setting
-import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
+import { User } from "../models/user.model.js";   // Import the User model from the user.model.js file
+import bcryptjs from "bcryptjs";  // Import bcryptjs for password hashing
+import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js"; // Import the generateTokenAndSetCookie utility function for JWT token generation and cookie setting
 
 // Signup function: Handles user registration
 export const signup = async (req, res) => {
