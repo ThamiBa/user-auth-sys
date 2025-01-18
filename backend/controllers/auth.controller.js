@@ -59,7 +59,6 @@ export const signup = async (req, res) => {
 };
 
 export const verifyEmail = async (req, res) => {
-    // 1 2 3 4 5 6
     const {code} = req.body;
     try {
         const user = await User.findOne({
@@ -100,6 +99,5 @@ export const login = async (req, res) => { // Login function: Handles user login
 
 // Logout function: Handles user logout (currently a placeholder)
 export const logout = async (req, res) => {
-    // Placeholder response for the logout route
-    res.send("LogOut route!");
+    res.clearCookie("token");
 };
