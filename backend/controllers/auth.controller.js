@@ -51,8 +51,8 @@ export const signup = async (req, res) => {
             },
         });
     } catch (error) {
-        // If an error occurs, respond with a 500 status and the error message
-        res.status(500).json({ success: false, message: error.message });
+        // If an error occurs, respond with a 400 status and the error message
+        res.status(400).json({ success: false, message: error.message });
     }
 };
 
