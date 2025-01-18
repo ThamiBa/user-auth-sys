@@ -35,11 +35,10 @@ export const signup = async (req, res) => {
             verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // Set token expiration to 24 hours from now
         });
 
-        // Save the new user to the database
-        await user.save();
+        await user.save();         // Save the new user to the database
 
-        // Generate a JWT token and set it as an HTTP-only cookie
-        generateTokenAndSetCookie(res, user._id);
+        generateTokenAndSetCookie(res, user._id);      // Generate a JWT token and set it as an HTTP-only cookie
+        sendVerificationEmail(user.email, verificationToken); // Send the verification email to the user
 
         // Respond with a success message and the user data (excluding the password)
         res.status(201).json({
