@@ -36,12 +36,12 @@ export const sendWelcomeEmail = async (email, name) => {
 	  to: recipient,
 	  template_uuid: "de41e642-243c-43cc-ab0b-3c3e542362a0",
 	  template_variables: {
-		"company_info_name": "Auth company",
+		"company_info_name": "Auth Company",
       "name": name,
 	  }
 	});
 
-	console.log("Email sent welcome successfully", response);
+	console.log("Welcome email sent successfully", response);
   } catch (error) {
 	console.error("Error sending welcome email:", error);
 	throw new Error(`Error sending welcome email: ${error}`);

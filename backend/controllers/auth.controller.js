@@ -88,7 +88,7 @@ export const verifyEmail = async (req, res) => {
         });
 
     } catch (error) {
-        console.log("error in verifyEmail", error);
+        console.log("error in verifyEmail ", error);
         res.status(400).json({ success: false, message: error.message });
     }
 }
