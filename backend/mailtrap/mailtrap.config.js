@@ -1,15 +1,16 @@
-import { MailtrapClient } from "mailtrap"; // Import the MailtrapClient class from the mailtrap package
-import dotenv from "dotenv"; // Import the dotenv package to load environment variables from a .env file
+import { MailtrapClient } from "mailtrap";
+import dotenv from "dotenv";
 
-dotenv.config(); // Load environment variables from the .env file into process.env
+dotenv.config();
 
-export const mailtrapClient = new MailtrapClient({ // Create a new MailtrapClient object
-  endpoint: process.env.MAILTRAP_ENDPOINT, // Mailtrap API endpoint
-  token: process.env.MAILTRAP_TOKEN, // Mailtrap API token
+// Initialize the Mailtrap client
+export const mailtrapClient = new MailtrapClient({
+  endpoint: process.env.MAILTRAP_ENDPOINT,
+  token: process.env.MAILTRAP_TOKEN,
 });
 
-// Export the client and sender objects
+// Define the sender details
 export const sender = {
-  email: "baladithami@gmail.com", // Sender email address
-  name: "Thami", // Sender name
+  email: process.env.MAILTRAP_SENDER_EMAIL,
+  name: process.env.MAILTRAP_SENDER_NAME,
 };

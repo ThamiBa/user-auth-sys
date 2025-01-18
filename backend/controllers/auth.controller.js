@@ -1,6 +1,8 @@
 import { User } from "../models/user.model.js";   // Import the User model from the user.model.js file
 import bcryptjs from "bcryptjs";  // Import bcryptjs for password hashing
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js"; // Import the generateTokenAndSetCookie utility function for JWT token generation and cookie setting
+import { sendVerificationEmail } from "../mailtrap/emails.js"; // Import the sendVerificationEmail function from the emails.js file
+import { sendWelcomeEmail } from "../mailtrap/emails.js"; // Import the sendWelcomeEmail function from the emails.js file
 
 // Signup function: Handles user registration
 export const signup = async (req, res) => {
@@ -38,7 +40,8 @@ export const signup = async (req, res) => {
         await user.save();         // Save the new user to the database
 
         generateTokenAndSetCookie(res, user._id);      // Generate a JWT token and set it as an HTTP-only cookie
-        sendVerificationEmail(user.email, verificationToken); // Send the verification email to the user
+
+        await sendVerificationEmail(user.email, verificationToken); // Send the verification email to the user
 
         // Respond with a success message and the user data (excluding the password)
         res.status(201).json({
@@ -55,8 +58,42 @@ export const signup = async (req, res) => {
     }
 };
 
-// Login function: Handles user login (currently a placeholder)
-export const login = async (req, res) => {
+export const verifyEmail = async (req, res) => {
+    // 1 2 3 4 5 6
+    const {code} = req.body;
+    try {
+        const user = await User.findOne({
+            verificationToken: code,
+            verificationTokenExpiresAt: { $gt: Date.now() },
+        });
+
+        if (!user) {
+            return res.status(400).json({ success: false, message: "Invalid or expired verification code" });
+        }
+
+        user.isVerified = true;
+        user.verificationToken = undefined;
+        user.verificationTokenExpiresAt = undefined;
+        await user.save();
+
+        await sendWelcomeEmail(user.email, user.name);
+
+        res.status(200).json({
+            success: true,
+            message: "Email verified successfully",
+            user: {
+                ...user._doc,
+                password: undefined,
+            },
+        });
+
+    } catch (error) {
+        console.log("error in verifyEmail", error);
+        res.status(400).json({ success: false, message: error.message });
+    }
+}
+
+export const login = async (req, res) => { // Login function: Handles user login (currently a placeholder)
     // Placeholder response for the login route
     res.send("LogIn route!");
 };
