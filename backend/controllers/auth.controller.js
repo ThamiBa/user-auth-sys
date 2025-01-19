@@ -4,6 +4,7 @@ import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js
 import { sendVerificationEmail } from "../mailtrap/emails.js"; // Import the sendVerificationEmail function from the emails.js file
 import { sendWelcomeEmail } from "../mailtrap/emails.js"; // Import the sendWelcomeEmail function from the emails.js file
 
+
 // Signup function: Handles user registration
 export const signup = async (req, res) => {
     // Destructure email, password, and name from the request body
@@ -93,11 +94,39 @@ export const verifyEmail = async (req, res) => {
 }
 
 export const login = async (req, res) => { // Login function: Handles user login (currently a placeholder)
-    // Placeholder response for the login route
-    res.send("LogIn route!");
+    const { email, password } = req.body; // Destructure email and password from the request body
+    try{
+        const user = await User.findOne({ email }); // Find a user with the provided email
+        if (!user) { // If the user does not exist, return a 400 error with a message
+            return res.status(400).json({ success: false, message: "Invalid credentials" });
+        }
+        const isPasswordValid = await bcryptjs.compare(password, user.password); // Compare the provided password with the hashed password
+        if (!isPasswordValid) { // If the password is invalid, return a 400 error with a message
+            return res.status(400).json({ success: false, message: "Invalid credentials" });
+        }
+
+        generateTokenAndSetCookie(res, user._id); // Generate a JWT token and set it as an HTTP-only cookie
+
+        user.lastLogin = Date.now(); // Update the last login date of the user
+        await user.save(); // Save the updated user to the database
+
+        res.status(200).json({
+            success: true,
+            message: "Logged in successfully",
+            user: {
+                ...user._doc,
+                password: undefined,
+            },
+        }); // Respond with a success message and the user data (excluding the password)
+
+    } catch (error) {
+        console.log("error in login ", error);
+        res.status(400).json({ success: false, message: error.message });
+    }
 };
 
 // Logout function: Handles user logout (currently a placeholder)
 export const logout = async (req, res) => {
     res.clearCookie("token");
+    res.status(200).json({ success: true, message: "Logged out successfully" });    // Respond with a success message
 };

@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
         required: true, // Name is required
     },
     // Last login field: Tracks the last login time
-    lastlogin: {
+    lastLogin: {
         type: Date,
         default: Date.now, // Default value is the current date and time
     },
