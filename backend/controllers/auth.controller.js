@@ -1,12 +1,12 @@
 import bcryptjs from "bcryptjs";  // Import bcryptjs for password hashing
 import crypto from "crypto";  // Import crypto for generating random tokens
+
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js"; // Import the generateTokenAndSetCookie utility function for JWT token generation and cookie setting
 import { sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js"; // Import the sendVerificationEmail and sendWelcomeEmail functions for sending emails
 import { User } from "../models/user.model.js";   // Import the User model from the user.model.js file
 
 
-// Signup function: Handles user registration
-export const signup = async (req, res) => {
+export const signup = async (req, res) => { // Signup function: Handles user registration
     // Destructure email, password, and name from the request body
     const { email, password, name } = req.body;
 
@@ -59,8 +59,8 @@ export const signup = async (req, res) => {
     }
 };
 
-export const verifyEmail = async (req, res) => {
-    const {code} = req.body;
+export const verifyEmail = async (req, res) => { // Verify email function: Handles email verification
+    const {code} = req.body; // Destructure the verification code from the request body
     try {
         const user = await User.findOne({
             verificationToken: code,
@@ -125,14 +125,12 @@ export const login = async (req, res) => { // Login function: Handles user login
     }
 };
 
-// Logout function: Handles user logout (currently a placeholder)
-export const logout = async (req, res) => {
+export const logout = async (req, res) => { // Logout function: Handles user logout
     res.clearCookie("token");
     res.status(200).json({ success: true, message: "Logged out successfully" });    // Respond with a success message
 };
 
-// Forgot password function: Handles password reset request (currently a placeholder)
-export const forgotPassword = async (req, res) => {
+export const forgotPassword = async (req, res) => {  // Forgot password function: Handles password reset
     const { email } = req.body; // Destructure email from the request body
     try {
         const user = await User.findOne({ email }); // Find a user with the provided email
@@ -142,6 +140,15 @@ export const forgotPassword = async (req, res) => {
         }
 
         const resetToken = crypto.randomBytes(20).toString("hex"); // Generate a random reset token
+        const resetExpiresAt = Date.now() + 1 * 60 * 60 * 1000; // Set the expiration time to 1 hours from now
+
+        user.resetPasswordToken = resetToken; // Store the reset token in the user document
+        user.resetPasswordExpiresAt = resetExpiresAt; // Store the expiration time in the user document
+
+        await user.save(); // Save the updated user to the database
+
+        await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetToken}`); // Send the password reset email to the user
+        
     } catch (error) {
         console.log("error in forgotPassword ", error);
         res.status(400).json({ success: false, message: error.message });
