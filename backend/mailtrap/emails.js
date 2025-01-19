@@ -1,4 +1,4 @@
-import { VERIFICATION_EMAIL_TEMPLATE } from "./emailTemplates.js"; // Import the email template
+import { PASSWORD_RESET_REQUEST_TEMPLATE, VERIFICATION_EMAIL_TEMPLATE } from "./emailTemplates.js"; // Import the email template
 import { mailtrapClient, sender } from "./mailtrap.config.js"; // Import Mailtrap client and sender
 
 /**
@@ -6,7 +6,7 @@ import { mailtrapClient, sender } from "./mailtrap.config.js"; // Import Mailtra
  * @param {string} email - The recipient's email address.
  * @param {string} verificationToken - The verification token to include in the email.
  */
-export const sendVerificationEmail = async (email, verificationToken) => {
+export const sendVerificationEmail = async (email, verificationToken) => { // Send verification email function
   const recipient = [{ email }]; // Define the recipient
 
   try {
@@ -26,7 +26,7 @@ export const sendVerificationEmail = async (email, verificationToken) => {
   }
 };
 
-export const sendWelcomeEmail = async (email, name) => {
+export const sendWelcomeEmail = async (email, name) => { // Send welcome email function
 	  const recipient = [{ email }]; // Define the recipient
 
   try {
@@ -48,7 +48,7 @@ export const sendWelcomeEmail = async (email, name) => {
   }
 };
 
-export const sendPasswordResetEmail = async (email, resetURL) => {
+export const sendPasswordResetEmail = async (email, resetURL) => {  // Send password reset email function
   const recipient = [{ email }]; // Define the recipient
 
   try {
@@ -57,7 +57,7 @@ export const sendPasswordResetEmail = async (email, resetURL) => {
       from: sender,
       to: recipient,
       subject: "Reset your password",
-      html: PageTransitionEvent.replace("{resetURL}", resetURL),
+      html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL),
       category: "Password Reset",
     });
 

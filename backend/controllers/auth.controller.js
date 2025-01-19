@@ -2,7 +2,7 @@ import bcryptjs from "bcryptjs";  // Import bcryptjs for password hashing
 import crypto from "crypto";  // Import crypto for generating random tokens
 
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js"; // Import the generateTokenAndSetCookie utility function for JWT token generation and cookie setting
-import { sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js"; // Import the sendVerificationEmail and sendWelcomeEmail functions for sending emails
+import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail } from "../mailtrap/emails.js"; // Import the sendVerificationEmail and sendWelcomeEmail functions for sending emails
 import { User } from "../models/user.model.js";   // Import the User model from the user.model.js file
 
 
@@ -149,6 +149,7 @@ export const forgotPassword = async (req, res) => {  // Forgot password function
 
         await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetToken}`); // Send the password reset email to the user
         
+        res.status(200).json({ success: true, message: "Password reset email sent successfully" }); // Respond with a success message
     } catch (error) {
         console.log("error in forgotPassword ", error);
         res.status(400).json({ success: false, message: error.message });
