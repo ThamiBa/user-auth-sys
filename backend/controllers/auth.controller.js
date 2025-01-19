@@ -1,8 +1,8 @@
-import { User } from "../models/user.model.js";   // Import the User model from the user.model.js file
 import bcryptjs from "bcryptjs";  // Import bcryptjs for password hashing
+import crypto from "crypto";  // Import crypto for generating random tokens
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js"; // Import the generateTokenAndSetCookie utility function for JWT token generation and cookie setting
-import { sendVerificationEmail } from "../mailtrap/emails.js"; // Import the sendVerificationEmail function from the emails.js file
-import { sendWelcomeEmail } from "../mailtrap/emails.js"; // Import the sendWelcomeEmail function from the emails.js file
+import { sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js"; // Import the sendVerificationEmail and sendWelcomeEmail functions for sending emails
+import { User } from "../models/user.model.js";   // Import the User model from the user.model.js file
 
 
 // Signup function: Handles user registration
@@ -130,3 +130,20 @@ export const logout = async (req, res) => {
     res.clearCookie("token");
     res.status(200).json({ success: true, message: "Logged out successfully" });    // Respond with a success message
 };
+
+// Forgot password function: Handles password reset request (currently a placeholder)
+export const forgotPassword = async (req, res) => {
+    const { email } = req.body; // Destructure email from the request body
+    try {
+        const user = await User.findOne({ email }); // Find a user with the provided email
+
+        if (!user) { // If the user does not exist, return a 400 error with a message
+            return res.status(400).json({ success: false, message: "User not found" });
+        }
+
+        const resetToken = crypto.randomBytes(20).toString("hex"); // Generate a random reset token
+    } catch (error) {
+        console.log("error in forgotPassword ", error);
+        res.status(400).json({ success: false, message: error.message });
+    }
+}
