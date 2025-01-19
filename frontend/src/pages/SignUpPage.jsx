@@ -1,8 +1,12 @@
+import{motion} from 'framer-motion';
+
 const SignUpPage = () => {
-  return (
-    <div>
+  return (<motion.div
+    initial={{ opacity: 0, y:20 }}
+    animate={{ opacity: 1, y:0 }}
+    >
       
-    </div>
+    </motion.div>
   )
 }
 
