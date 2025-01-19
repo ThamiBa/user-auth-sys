@@ -185,3 +185,16 @@ export const resetPassword = async (req, res) => { // Reset password function: H
         res.status(400).json({ success: false, message: error.message });
     }
 }
+
+export const checkAuth = async (req, res) => { // Check auth function: Handles checking the user's authentication status
+    try {
+        const user = await User.findById(req.userId); // Find a user by the user ID in the request object
+        if (!user) { // If the user does not exist, return a 400 error with a message
+            return res.status(400).json({ success: false, message: "User not found" });
+        }
+        res.status(200).json({ success: true, user }); // Respond with a success message and the user data
+    } catch (error) {
+        console.log("error in checkAuth ", error);
+        res.status(400).json({ success: false, message: error.message });
+    }
+}
