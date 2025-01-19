@@ -2,7 +2,7 @@ import bcryptjs from "bcryptjs";  // Import bcryptjs for password hashing
 import crypto from "crypto";  // Import crypto for generating random tokens
 
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js"; // Import the generateTokenAndSetCookie utility function for JWT token generation and cookie setting
-import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail } from "../mailtrap/emails.js"; // Import the sendVerificationEmail and sendWelcomeEmail functions for sending emails
+import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail, sendResetSuccessEmail } from "../mailtrap/emails.js"; // Import the sendVerificationEmail and sendWelcomeEmail functions for sending emails
 import { User } from "../models/user.model.js";   // Import the User model from the user.model.js file
 
 
@@ -152,6 +152,36 @@ export const forgotPassword = async (req, res) => {  // Forgot password function
         res.status(200).json({ success: true, message: "Password reset email sent successfully" }); // Respond with a success message
     } catch (error) {
         console.log("error in forgotPassword ", error);
+        res.status(400).json({ success: false, message: error.message });
+    }
+}
+
+export const resetPassword = async (req, res) => { // Reset password function: Handles password reset
+    const { token } = req.params; // Destructure the reset token from the request parameters
+    const { password } = req.body; // Destructure the new password from the request body
+
+    try {
+        const user = await User.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpiresAt: { $gt: Date.now() },
+        }); // Find a user with the provided reset token and a valid expiration time
+
+        if (!user) { // If the user does not exist or the token is expired, return a 400 error with a message
+            return res.status(400).json({ success: false, message: "Invalid or expired reset token" });
+        }
+
+        const hashedPassword = await bcryptjs.hash(password, 10); // Hash the new password
+
+        user.password = hashedPassword; // Update the user's password with the new hashed password
+        user.resetPasswordToken = undefined; // Clear the reset token
+        user.resetPasswordExpiresAt = undefined; // Clear the expiration time
+
+        await user.save(); // Save the updated user to the database
+        await sendResetSuccessEmail(user.email); // Send the password changed email to the
+
+        res.status(200).json({ success: true, message: "Password reset successfully" }); // Respond with a success message
+    } catch (error) {
+        console.log("error in resetPassword ", error);
         res.status(400).json({ success: false, message: error.message });
     }
 }
