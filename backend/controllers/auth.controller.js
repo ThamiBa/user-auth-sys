@@ -7,30 +7,22 @@ import { User } from "../models/user.model.js";   // Import the User model from 
 
 
 export const signup = async (req, res) => { // Signup function: Handles user registration
-    // Destructure email, password, and name from the request body
-    const { email, password, name } = req.body;
+    const { email, password, name } = req.body; // Destructure email, password, and name from the request body
 
     try {
-        // Check if all required fields (email, password, name) are provided
-        if (!email || !password || !name) {
+        if (!email || !password || !name) { // Check if all required fields (email, password, name) are provided
             throw new Error("All fields are required"); // Throw an error if any field is missing
         }
 
-        // Check if a user with the same email already exists in the database
-        const userAlreadyExists = await User.findOne({ email });
-        if (userAlreadyExists) {
-            // If the user already exists, return a 400 error with a message
+        const userAlreadyExists = await User.findOne({ email }); // Check if a user with the same email already exists in the database
+        if (userAlreadyExists) { // If a user with the same email exists, return a 400 error with a message
             return res.status(400).json({ success: false, message: "User already exists" });
         }
 
-        // Hash the password using bcryptjs with a salt factor of 10
-        const hashedPassword = await bcryptjs.hash(password, 10);
+        const hashedPassword = await bcryptjs.hash(password, 10); // Hash the provided password with a salt of 10 rounds
+        const verificationToken = Math.floor(100000 + Math.random() * 900000).toString(); // Generate a 6-digit verification token
 
-        // Generate a 6-digit verification token for email verification
-        const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
-
-        // Create a new user instance with the provided data
-        const user = new User({
+        const user = new User({ // Create a new user object with the provided data
             email,
             password: hashedPassword, // Store the hashed password
             name,
@@ -39,13 +31,10 @@ export const signup = async (req, res) => { // Signup function: Handles user reg
         });
 
         await user.save();         // Save the new user to the database
-
         generateTokenAndSetCookie(res, user._id);      // Generate a JWT token and set it as an HTTP-only cookie
-
         await sendVerificationEmail(user.email, verificationToken); // Send the verification email to the user
 
-        // Respond with a success message and the user data (excluding the password)
-        res.status(201).json({
+        res.status(201).json({ // Respond with a 201 status and a success message
             success: true,
             message: "User created successfully",
             user: {
@@ -53,8 +42,7 @@ export const signup = async (req, res) => { // Signup function: Handles user reg
                 password: undefined, // Exclude the password from the response
             },
         });
-    } catch (error) {
-        // If an error occurs, respond with a 400 status and the error message
+    } catch (error) { // If an error occurs, respond with a 400 status and the error message
         res.status(400).json({ success: false, message: error.message });
     }
 };
@@ -62,23 +50,23 @@ export const signup = async (req, res) => { // Signup function: Handles user reg
 export const verifyEmail = async (req, res) => { // Verify email function: Handles email verification
     const {code} = req.body; // Destructure the verification code from the request body
     try {
-        const user = await User.findOne({
+        const user = await User.findOne({ // Find a user with the provided verification token and a valid expiration time
             verificationToken: code,
             verificationTokenExpiresAt: { $gt: Date.now() },
         });
 
-        if (!user) {
+        if (!user) { // If the user does not exist or the token is expired, return a 400 error with a message
             return res.status(400).json({ success: false, message: "Invalid or expired verification code" });
         }
 
-        user.isVerified = true;
-        user.verificationToken = undefined;
-        user.verificationTokenExpiresAt = undefined;
-        await user.save();
+        user.isVerified = true; // Set the user's isVerified field to true
+        user.verificationToken = undefined; // Clear the verification token
+        user.verificationTokenExpiresAt = undefined; // Clear the expiration time
+        await user.save(); // Save the updated user to the database
 
-        await sendWelcomeEmail(user.email, user.name);
+        await sendWelcomeEmail(user.email, user.name); // Send the welcome email to the user
 
-        res.status(200).json({
+        res.status(200).json({ // Respond with a 200 status and a success message
             success: true,
             message: "Email verified successfully",
             user: {
@@ -87,7 +75,7 @@ export const verifyEmail = async (req, res) => { // Verify email function: Handl
             },
         });
 
-    } catch (error) {
+    } catch (error) { // If an error occurs, respond with a 400 status and the error message
         console.log("error in verifyEmail ", error);
         res.status(400).json({ success: false, message: error.message });
     }
@@ -186,16 +174,16 @@ export const resetPassword = async (req, res) => { // Reset password function: H
     }
 }
 
-export const checkAuth = async (req, res) => { // Check auth function: Handles checking the user's authentication status
-    try {
-        const user = await User.findById(req.userId).select("-password"); // Find a user by the user ID in the request object
-        if (!user) { // If the user does not exist, return a 400 error with a message
-            return res.status(400).json({ success: false, message: "User not found" });
-        }
-        res.status(200).json({ success: true, user }); // Respond with a success message and the user data
-        
-    } catch (error) {
-        console.log("error in checkAuth ", error);
-        res.status(400).json({ success: false, message: error.message });
-    }
-} 
+export const checkAuth = async (req, res) => { // Check auth function: Handles user authentication
+	try {
+		const user = await User.findById(req.userId).select("-password"); // Find the user by ID and exclude the password field
+		if (!user) {
+			return res.status(400).json({ success: false, message: "User not found" }); // If the user is not found, return a 400 error
+		}
+
+		res.status(200).json({ success: true, user }); // Respond with a success message and the user data
+	} catch (error) { // If an error occurs, respond with a 400 status and the
+		console.log("Error in checkAuth ", error); // Log the error message
+		res.status(400).json({ success: false, message: error.message }); // Respond with an error message
+	}
+}; 
