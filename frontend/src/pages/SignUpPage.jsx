@@ -69,6 +69,7 @@ const SignUpPage = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
+            disabled={isLoading}
           >
             {isLoading ? <Loader className='animate-spin mx-auto' size={24} /> : "Sign Up"}
           </motion.button>
