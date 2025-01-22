@@ -1,14 +1,17 @@
 import express from 'express'; // Import express
 import dotenv from 'dotenv'; // Import dotenv
+import cors from 'cors'; // Import cors
 import cookieParser from 'cookie-parser'; // Import cookie-parser
-
 import { connectDB } from './db/connectDB.js'; // Import connectDB function
 import authRoutes from './routes/auth.route.js'; // Import authRoutes
+
 
 dotenv.config(); // Load environment variables
 
 const app = express(); // Create express app
 const PORT = process.env.PORT || 5000; // Set PORT
+
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true })); // Allow requests from CLIENT_URL
 
 app.use(express.json()); // allows us to parse incoming requests:req.body
 app.use(cookieParser()); // allows us to parse incoming cookies
