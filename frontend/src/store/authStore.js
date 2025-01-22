@@ -6,6 +6,8 @@ import EmailVerification from '../pages/EmailVerificationPage';
 
 const API_URL = 'http://localhost:5000/api/auth';
 
+axios.defaults.withCredentials = true;
+
 export const useAuthStore = create((set) => ({
     user: null,
     isAuthenticated: false,
