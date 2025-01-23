@@ -3,17 +3,31 @@ import FloatingShape from "./components/FloatingShape.jsx";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
+import { Navigate } from "react-router-dom";
 
-import { Toaster } from 'react-hot-toast';
-import { useAuthStore } from "./store/authStore.js";
+import { Toaster } from "react-hot-toast";
+import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
 
+// redirect to home page if user is authenticated
+const RedirectAutenicatedUser = ({ children }) => {
+  const { isAuthenticated, user } = useAuthStore();
+  if(isAuthenticated && user.isVerified) {
+    return <Navigate to='/' replace />;
+  }
+  return children;
+}
+
 function App() {
-  const {isCheckingAuth,checkAuth} = useAuthStore();
+  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
 
-  useEffect(() => {
+	useEffect(() => {
+		checkAuth();
+	}, [checkAuth]);
 
-  },[checkAuth]);
+	console.log("isauthenticated", isAuthenticated);
+  console.log("user", user);
+
   return (
     <div className='min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center relative overflow-hidden'>
       <FloatingShape color='bg-blue-500' size='w-64 h-64' top='-5%' left='10%' delay={0} />
@@ -22,7 +36,11 @@ function App() {
 
       <Routes>
         <Route path='/' element={"Home"} />
-        <Route path='/signup' element={<SignUpPage />} />
+        <Route path='/signup' element={
+          <RedirectAutenicatedUser>
+            <SignUpPage />
+          </RedirectAutenicatedUser>
+        } />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/verify-email' element={<EmailVerificationPage/>} />
       </Routes>
