@@ -4,6 +4,8 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
 
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   return (
     <div className='min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center relative overflow-hidden'>
@@ -17,6 +19,7 @@ function App() {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/verify-email' element={<EmailVerificationPage/>} />
       </Routes>
+      <Toaster />
     </div>
   );
 }
