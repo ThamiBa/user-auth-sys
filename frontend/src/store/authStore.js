@@ -1,7 +1,6 @@
 import {create} from 'zustand';
 import axios from 'axios';
-import { use } from 'react';
-import EmailVerification from '../pages/EmailVerificationPage';
+
 
 
 const API_URL = 'http://localhost:5000/api/auth';
@@ -24,5 +23,14 @@ export const useAuthStore = create((set) => ({
             set({ error: error.response.data.message || "Error signing up" , isLoading: false });
             throw error;
         }
+    },
+
+    verifyEmail: async (verificationCode) => {
+        try {
+            
+        } catch (error) {
+            
+        }
     }
+
 }));
