@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Lock } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import Input from '../components/Input';
+import toast from 'react-hot-toast';
 
 const ResetPasswordPage = () => {
     const [password, setPassword] = useState('');
@@ -13,7 +14,16 @@ const ResetPasswordPage = () => {
     const {token} = useParams();
     const {Navigate} = useNavigate();
 
-    const handleSubmit = async (e) => {}
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if(password !== confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+        await resetPassword(token, password);
+
+        toast.success('Password reset successfully, redirecting to login page...');
+    };
   return (
     <motion.div
             initial={{ opacity: 0, y: 20 }}
