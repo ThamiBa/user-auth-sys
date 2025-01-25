@@ -4,10 +4,12 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
 import { Navigate } from "react-router-dom";
+import DashboardPage from "./pages/DashboardPage";
 
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
+
 
 // Protect routes that require authentication
 const ProtectedRoute = ({ children }) => {
@@ -50,7 +52,9 @@ function App() {
       <FloatingShape color='bg-indigo-500' size='w-32 h-32' top='40%' left='-10%' delay={2} />
 
       <Routes>
-        <Route path='/' element={"Home"} />
+        <Route path='/' element={<ProtectedRoute>
+          <DashboardPage />
+        </ProtectedRoute>} />
         <Route
           path='/signup'
           element={
