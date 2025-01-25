@@ -23,6 +23,9 @@ const ResetPasswordPage = () => {
         await resetPassword(token, password);
 
         toast.success('Password reset successfully, redirecting to login page...');
+        setTimeout(() => {
+            Navigate('/login');
+        }, 2000);
     };
   return (
     <motion.div
