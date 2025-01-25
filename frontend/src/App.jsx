@@ -5,6 +5,7 @@ import SignUpPage from "./pages/SignUpPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
 import { Navigate } from "react-router-dom";
 import DashboardPage from "./pages/DashboardPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 import LoadingSpinner from "./components/LoadingSpinner";
 
@@ -38,7 +39,7 @@ const RedirectAutenicatedUser = ({ children }) => {
 }
 
 function App() {
-  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
+  const { isCheckingAuth, checkAuth } = useAuthStore();
 
 	useEffect(() => {
 		checkAuth();
@@ -71,6 +72,9 @@ function App() {
           </RedirectAutenicatedUser>
         } />
         <Route path='/verify-email' element={<EmailVerificationPage/>} />
+        <Route path='/forgot-password' element={<RedirectAutenicatedUser>
+          <ForgotPasswordPage />
+        </RedirectAutenicatedUser>} />
       </Routes>
       <Toaster />
     </div>
