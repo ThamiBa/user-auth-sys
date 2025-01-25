@@ -1,11 +1,11 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import FloatingShape from "./components/FloatingShape.jsx";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
-import { Navigate } from "react-router-dom";
 import DashboardPage from "./pages/DashboardPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 import LoadingSpinner from "./components/LoadingSpinner";
 
@@ -75,6 +75,15 @@ function App() {
         <Route path='/forgot-password' element={<RedirectAutenicatedUser>
           <ForgotPasswordPage />
         </RedirectAutenicatedUser>} />
+        
+        <Route
+          path='/reset-password/:token'
+					element={<RedirectAutenicatedUser>
+							<ResetPasswordPage />
+						</RedirectAutenicatedUser>
+					}
+        />
+
       </Routes>
       <Toaster />
     </div>
