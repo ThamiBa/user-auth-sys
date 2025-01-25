@@ -6,6 +6,8 @@ import EmailVerificationPage from "./pages/EmailVerificationPage";
 import { Navigate } from "react-router-dom";
 import DashboardPage from "./pages/DashboardPage";
 
+import LoadingSpinner from "./components/LoadingSpinner";
+
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
