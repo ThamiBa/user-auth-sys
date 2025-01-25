@@ -20,7 +20,7 @@ const ProtectedRoute = ({ children }) => {
   if (!user.isVerified) {
     return <Navigate to='/verify-email' replace />;
   }
-  
+
   return children;
 }
 
@@ -51,12 +51,16 @@ function App() {
 
       <Routes>
         <Route path='/' element={"Home"} />
-        <Route path='/signup' element={
+        <Route
+          path='/signup'
+          element={
           <RedirectAutenicatedUser>
             <SignUpPage />
           </RedirectAutenicatedUser>
         } />
-        <Route path='/login' element={
+        <Route
+          path='/login'
+          element={
           <RedirectAutenicatedUser>
             <LoginPage />
           </RedirectAutenicatedUser>
