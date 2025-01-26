@@ -4,7 +4,9 @@
   "description": "A secure and scalable user authentication system built with **Node.js**, **Express**, **MongoDB**, **bcrypt** for password hashing, and **JSON Web Tokens (JWT)** for session management.",
   "main": "backend/index.js",
   "scripts": {
-    "dev": "nodemon backend/index.js"
+    "dev": "NODE_ENV=development  nodemon backend/index.js",
+    "start": "NODE_ENV=production node backend/index.js",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "keywords": [],
   "author": "",
