@@ -12,7 +12,7 @@ const ResetPasswordPage = () => {
     const {resetPassword, error, isLoading, message} = useAuthStore();
 
     const {token} = useParams();
-    const {Navigate} = useNavigate();
+    const {navigate} = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,12 +20,17 @@ const ResetPasswordPage = () => {
             alert('Passwords do not match');
             return;
         }
-        await resetPassword(token, password);
+        try {
+			await resetPassword(token, password);
 
-        toast.success('Password reset successfully, redirecting to login page...');
-        setTimeout(() => {
-            Navigate('/login');
-        }, 2000);
+			toast.success("Password reset successfully, redirecting to login page...");
+			setTimeout(() => {
+				navigate("/login");
+			}, 2000);
+		} catch (error) {
+			console.error(error);
+			toast.error(error.message || "Error resetting password");
+		}
     };
   return (
     <motion.div

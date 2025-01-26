@@ -144,35 +144,36 @@ export const forgotPassword = async (req, res) => {  // Forgot password function
     }
 }
 
-export const resetPassword = async (req, res) => { // Reset password function: Handles password reset
-    const { token } = req.params; // Destructure the reset token from the request parameters
-    const { password } = req.body; // Destructure the new password from the request body
+export const resetPassword = async (req, res) => {
+	try {
+		const { token } = req.params;
+		const { password } = req.body;
 
-    try {
-        const user = await User.findOne({
-            resetPasswordToken: token,
-            resetPasswordExpiresAt: { $gt: Date.now() },
-        }); // Find a user with the provided reset token and a valid expiration time
+		const user = await User.findOne({
+			resetPasswordToken: token,
+			resetPasswordExpiresAt: { $gt: Date.now() },
+		});
 
-        if (!user) { // If the user does not exist or the token is expired, return a 400 error with a message
-            return res.status(400).json({ success: false, message: "Invalid or expired reset token" });
-        }
+		if (!user) {
+			return res.status(400).json({ success: false, message: "Invalid or expired reset token" });
+		}
 
-        const hashedPassword = await bcryptjs.hash(password, 10); // Hash the new password
+		// update password
+		const hashedPassword = await bcryptjs.hash(password, 10);
 
-        user.password = hashedPassword; // Update the user's password with the new hashed password
-        user.resetPasswordToken = undefined; // Clear the reset token
-        user.resetPasswordExpiresAt = undefined; // Clear the expiration time
+		user.password = hashedPassword;
+		user.resetPasswordToken = undefined;
+		user.resetPasswordExpiresAt = undefined;
+		await user.save();
 
-        await user.save(); // Save the updated user to the database
-        await sendResetSuccessEmail(user.email); // Send the password changed email to the
+		await sendResetSuccessEmail(user.email);
 
-        res.status(200).json({ success: true, message: "Password reset successfully" }); // Respond with a success message
-    } catch (error) {
-        console.log("error in resetPassword ", error);
-        res.status(400).json({ success: false, message: error.message });
-    }
-}
+		res.status(200).json({ success: true, message: "Password reset successful" });
+	} catch (error) {
+		console.log("Error in resetPassword ", error);
+		res.status(400).json({ success: false, message: error.message });
+	}
+};
 
 export const checkAuth = async (req, res) => { // Check auth function: Handles user authentication
 	try {
