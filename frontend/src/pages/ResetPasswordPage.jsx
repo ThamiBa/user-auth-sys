@@ -43,7 +43,7 @@ const ResetPasswordPage = () => {
     >
       <div className="p-8">
         {/* Title */}
-        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
           Reset Password
         </h2>
 
